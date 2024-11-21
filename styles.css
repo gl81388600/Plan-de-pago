@@ -1,70 +1,42 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f4f4f9;
-  color: #333;
-}
+document.getElementById('calculate-btn').addEventListener('click', () => {
+  const loanAmount = parseFloat(document.getElementById('loan-amount').value);
+  const annualRate = parseFloat(document.getElementById('interest-rate').value) / 100;
+  const insuranceRate = parseFloat(document.getElementById('insurance-rate').value) / 100;
+  const disbursementDate = new Date(document.getElementById('disbursement-date').value);
+  const firstPaymentDate = new Date(document.getElementById('first-payment-date').value);
+  const termMonths = parseInt(document.getElementById('term-months').value);
 
-header {
-  text-align: center;
-  padding: 20px;
-  background: #0074D9;
-  color: white;
-}
+  const tableBody = document.querySelector('#amortization-table tbody');
+  tableBody.innerHTML = ''; // Clear previous table
 
-form {
-  max-width: 600px;
-  margin: 20px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
+  let balance = loanAmount;
+  const monthlyPayment = loanAmount / termMonths;
 
-form label {
-  display: block;
-  margin-bottom: 8px;
-}
+  for (let month = 1; month <= termMonths; month++) {
+    const paymentDate = new Date(firstPaymentDate);
+    paymentDate.setMonth(firstPaymentDate.getMonth() + month - 1);
 
-form input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
+    const daysBetweenPayments = (paymentDate - disbursementDate) / (1000 * 60 * 60 * 24);
 
-button {
-  background: #0074D9;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    const insurance = Math.max(balance * insuranceRate, 2);
+    const interest = (balance * annualRate * daysBetweenPayments) / 365;
+    const totalPayment = monthlyPayment + insurance + interest;
 
-button:hover {
-  background: #005f99;
-}
+    balance -= monthlyPayment;
 
-table {
-  width: 90%;
-  margin: 20px auto;
-  border-collapse: collapse;
-}
-
-table th, table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: right;
-}
-
-table th {
-  background: #0074D9;
-  color: white;
-  text-align: center;
-}
-
-table tbody tr:nth-child(even) {
-  background: #f9f9f9;
+    const row = `
+      <tr>
+        <td>${month}</td>
+        <td>${paymentDate.toISOString().split('T')[0]}</td>
+        <td>${Math.round(daysBetweenPayments)}</td>
+        <td>${balance.toFixed(2)}</td>
+        <td>${monthlyPayment.toFixed(2)}</td>
+        <td>${insurance.toFixed(2)}</td>
+        <td>${interest.toFixed(2)}</td>
+        <td>${totalPayment.toFixed(2)}</td>
+        <td>${balance.toFixed(2)}</td>
+      </tr>
+    `;
+    tableBody.innerHTML += row;
+  }
+});
