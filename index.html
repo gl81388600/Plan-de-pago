@@ -1,79 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora de Amortización</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    th, td {
-      border: 1px solid black;
-      padding: 8px;
-      text-align: left; /* Alineación predeterminada a la izquierda */
-    }
-    th {
-      background-color: #f2f2f2;
-      font-weight: bold; /* Encabezados en negrita */
-    }
-    .number { /* Clase para alinear números a la derecha */
-      text-align: right;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Calculadora de Amortización de Préstamos</h1>
-  <form id="loanForm">
-    <label for="amount">Monto del Préstamo:</label>
-    <input type="number" id="amount" step="0.01" required><br><br>
+  <header>
+    <h1>Calculadora de Amortización</h1>
+  </header>
+  <main>
+    <form id="loan-form">
+      <h2>Introduce los datos del préstamo:</h2>
+      <label for="loan-amount">Monto del préstamo (NIO):</label>
+      <input type="number" id="loan-amount" required>
 
-    <label for="interestRate">Tasa de Interés (%):</label>
-    <input type="number" id="interestRate" step="0.01" required><br><br>
+      <label for="interest-rate">Tasa de interés (%) anual:</label>
+      <input type="number" id="interest-rate" step="0.01" required>
 
-    <label for="interestRate">Tasa de Interés Moratorio (%):</label>
-    <input type="number" id="defaultInterestRate" step="0.01" required><br><br>
+      <label for="late-interest-rate">Tasa de interés moratorio (%):</label>
+      <input type="number" id="late-interest-rate" step="0.01">
 
-    <label for="insuranceRate">Tasa de Seguro (%):</label>
-    <input type="number" id="insuranceRate" step="0.01" required><br><br>
+      <label for="insurance-rate">Tasa de seguro (%):</label>
+      <input type="number" id="insurance-rate" step="0.01" required>
 
-    <label for="disbursementDate">Fecha de Desembolso:</label>
-    <input type="date" id="disbursementDate" required><br><br>
+      <label for="disbursement-date">Fecha de desembolso:</label>
+      <input type="date" id="disbursement-date" required>
 
-    <label for="firstPaymentDate">Fecha del Primer Pago:</label>
-    <input type="date" id="firstPaymentDate" required><br><br>
+      <label for="first-payment-date">Fecha del primer pago:</label>
+      <input type="date" id="first-payment-date" required>
 
-    <label for="term">Plazo (Meses):</label>
-    <input type="number" id="term" required><br><br>
+      <label for="term-months">Plazo (meses):</label>
+      <input type="number" id="term-months" required>
 
-    <label for="days">Días:</label>
-    <input type="number" id="days" required><br><br>
+      <button type="button" id="calculate-btn">Calcular</button>
+    </form>
 
-    <button type="button" onclick="calculateAmortization()">Calcular</button>
-  </form>
-
-  <h2>Tabla de Amortización</h2>
-  <table>
-    <thead>
-      <tr>
-        <th><strong>Mes</strong></th>
-        <th><strong>Fecha de Pago</strong></th>
-        <th><strong>Días entre Pagos</strong></th>
-        <th><strong>Saldo Inicial</strong></th>
-        <th><strong>Cuota Mensual</strong></th>
-        <th><strong>Seguro</strong></th>
-        <th><strong>Interés</strong></th>
-        <th><strong>Total a Pagar</strong></th>
-        <th><strong>Nuevo Saldo</strong></th>
-      </tr>
-    </thead>
-    <tbody id="amortizationTable"></tbody>
-  </table>
+    <section id="amortization-table">
+      <h2>Tabla de Amortización</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Mes</th>
+            <th>Fecha de Pago</th>
+            <th>Días entre pagos</th>
+            <th>Saldo Inicial</th>
+            <th>Cuota Mensual</th>
+            <th>Seguro</th>
+            <th>Interés</th>
+            <th>Total a Pagar</th>
+            <th>Nuevo Saldo</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
   <script src="script.js"></script>
 </body>
 </html>
